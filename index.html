@@ -1,0 +1,136 @@
+<!doctype html>
+
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>FurniNest</title>
+    <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+  </head>
+
+  <body class="m-0">
+    <section
+      class="min-h-screen bg-cover bg-center relative"
+      style="
+        background-image: url(&quot;https://images.unsplash.com/photo-1618221195710-dd6b41faaea6?auto=format&fit=crop&w=2000&q=80&quot;);
+      "
+    >
+      <div class="absolute inset-0 bg-black/40"></div>
+
+      <nav
+        class="relative z-10 bg-teal-700/95 text-white px-5 sm:px-8 py-4 flex items-center justify-between shadow-lg"
+      >
+        <h1 class="text-2xl sm:text-3xl font-bold tracking-wide">
+          Shop-with-me
+        </h1>
+
+        <div class="hidden md:flex gap-5 lg:gap-8 text-base lg:text-lg">
+          <a href="login.html" class="hover:text-teal-200 transition"> Home </a>
+
+          <a href="login.html" class="hover:text-teal-200 transition">
+            Furniture
+          </a>
+
+          <a href="login.html" class="hover:text-teal-200 transition">
+            About
+          </a>
+
+          <a href="login.html" class="hover:text-teal-200 transition">
+            Contact
+          </a>
+        </div>
+
+        <div class="hidden sm:flex gap-2 sm:gap-3">
+          <a
+            href="login.html"
+            class="px-3 sm:px-5 py-2 rounded-lg border border-white hover:bg-white hover:text-teal-700 transition text-sm sm:text-base"
+          >
+            Login
+          </a>
+
+          <a
+            href="register.html"
+            class="px-3 sm:px-5 py-2 rounded-lg bg-white text-teal-700 font-semibold hover:bg-teal-100 transition text-sm sm:text-base"
+          >
+            Register
+          </a>
+        </div>
+
+        <button class="md:hidden text-3xl" onclick="showMenu()">☰</button>
+      </nav>
+
+      <div
+        id="mobileMenu"
+        class="hidden md:hidden absolute z-20 top-[72px] left-0 w-full bg-teal-700 text-white px-6 py-5"
+      >
+        <div class="flex flex-col gap-4 text-lg">
+          <a href="login.html" class="hover:text-teal-200"> Home </a>
+
+          <a href="login.html" class="hover:text-teal-200"> Furniture </a>
+
+          <a href="login.html" class="hover:text-teal-200"> About </a>
+
+          <a href="login.html" class="hover:text-teal-200"> Contact </a>
+
+          <div class="flex gap-3 pt-2">
+            <a
+              href="login.html"
+              class="px-4 py-2 rounded-lg border border-white"
+            >
+              Login
+            </a>
+
+            <a
+              href="register.html"
+              class="px-4 py-2 rounded-lg bg-white text-teal-700 font-semibold"
+            >
+              Register
+            </a>
+          </div>
+        </div>
+      </div>
+
+      <div
+        class="relative z-10 min-h-[calc(100vh-72px)] flex items-center justify-center text-center text-white px-5 sm:px-8 py-16"
+      >
+        <div class="max-w-3xl w-full">
+          <p
+            class="text-teal-300 text-sm sm:text-lg md:text-xl font-semibold mb-3 sm:mb-4"
+          >
+            BEAUTIFUL FURNITURE FOR YOUR HOME
+          </p>
+
+          <h2
+            class="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-bold leading-tight mb-5 sm:mb-6"
+          >
+            Make Your Home
+
+            <span class="text-teal-300 block sm:inline"> Beautiful </span>
+          </h2>
+
+          <p
+            class="text-base sm:text-lg md:text-xl text-gray-200 mb-7 sm:mb-8 max-w-2xl mx-auto"
+          >
+            Discover stylish, comfortable and high-quality furniture designed to
+            make every corner of your home special.
+          </p>
+
+          <a
+            href="login.html"
+            class="inline-block bg-teal-600 hover:bg-teal-700 text-white px-6 sm:px-8 py-3 rounded-lg text-base sm:text-lg font-semibold transition shadow-lg"
+          >
+            Shop Furniture
+          </a>
+        </div>
+      </div>
+    </section>
+
+    <script>
+      function showMenu() {
+        let menu = document.querySelector("#mobileMenu");
+
+        menu.classList.toggle("hidden");
+      }
+    </script>
+  </body>
+</html>

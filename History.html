@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    
+    <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+    <link href="https://cdn.jsdelivr.net/npm/remixicon@4.9.0/fonts/remixicon.css" rel="stylesheet">
+</head>
+<body class="bg-slate-300 flex-col">
+     <div id="nav" class="lg:mb-5 bg-teal-700 py-7 px-10 lg:px-25 flex justify-between items-center text-white">
+    <h1 class="text-3xl font-sans font-bold">Shop-with-me</h1>
+    <div class="flex gap-10 items-center">
+        <h2 class="icon text-2xl flex lg:hidden items-center font-semibold"><i class="ri-menu-fill"></i></h2>
+        <ul class="hidden lg:flex gap-15 text-white/75 text-md font-sans font-bold">
+            <li><a href="index.html">Home</a></li>
+            <li><a href="Products/AllProducts.html">Shop</a></li>
+            <li><a href="index.html">Services</a></li>
+            <li><a href="">Contact us</a></li>
+        </ul>
+        <h2 class="text-2xl flex items-center font-semibold"><a href="cart.html"><i class="ri-shopping-cart-2-fill"></i></a></i></h2>
+        <button onclick="logout()" class="bg-white text-teal-900 px-4 py-2 rounded-full font-semibold"><a href="login.html">Logout</a></button>
+    </div>
+</div>
+ <div class="productscards lg:px-40 pt-20"></div>
+</body>
+<script>
+    let produc= document.querySelector(".productscards")
+    let history=JSON.parse(localStorage.getItem("order"))||[]
+    let userindex= JSON.parse(localStorage.getItem("userIndex"))||[]
+    
+    
+    function Show() {
+for (let i = 0; i < history.length; i++) {
+let Customer= history[i].customerId
+let pro= history[i].products
+
+if (Customer==userindex) {
+for (let k = 0; k < pro.length; k++) {
+   produc.innerHTML+=`
+                        <div class="bg-white p-4 rounded mb-4 flex justify-between items-center gap-4">
+                              <div class="flex pl-9 gap-9 items-center">
+        
+                            <img src="${pro[k].Image}"
+                            class="w-24 h-24 object-cover rounded">
+
+                            <div class="flex-1">
+                                <h2 class="font-bold">
+                                    ${pro[k].Product}</h2><p class="text-teal-700 font-semibold mt-2"> ₹${pro[k].Catogary}</p></div>
+    </div>
+    <div>
+        <h1 class="text-xl font-semibold text-green-700">${"₹"+" "+pro[k].Price}</h1>
+    </div>
+      <div class="pr-9">
+        <h1 class="font-bold text-lg">Staus:</h1>
+        <h1 class="font-semibold">${pro[k].status}</h1>
+        </div>
+
+                        </div> `
+            }  
+}
+}
+}  
+    
+            
+Show()
+
+
+</script>
+</html>

@@ -1,0 +1,252 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>document</title>
+    <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+    <link href="https://cdn.jsdelivr.net/npm/remixicon@4.9.0/fonts/remixicon.css" rel="stylesheet">
+</head>
+
+<body class="bg-gray-100">
+    <div class="bg-teal-900 text-white">
+        <div class="px-6 py-4 flex justify-between items-center">
+            <h1 class="text-2xl font-bold">Shop-with-me</h1>
+            <a href="cart.html"><i class="ri-shopping-cart-2-fill text-2xl"></i> </a>
+        </div>
+    </div>
+
+    <div class="max-w-6xl mx-auto px-5 py-7">
+        <h1 class="text-3xl font-bold">Checkout</h1>
+        <p class="text-gray-500 mt-1 mb-6">Enter your details to place your order</p>
+
+        <div class="grid md:grid-cols-2 gap-6">
+            <div class="bg-white p-6 rounded shadow">
+                <h2 class="text-xl font-bold mb-5">Customer Details</h2>
+
+                <label class="block mb-1">Customer ID</label>
+                <input id="customerId"
+                    type="text" readonly class="w-full border p-2 rounded mb-4 bg-gray-100">
+
+                <label class="block mb-1">Name</label>
+                <input id="name"
+                    type="text" placeholder="Enter your name" class="w-full border p-2 rounded mb-4">
+
+                <label class="block mb-1">Email</label>
+                <input id="email"
+                    type="email" placeholder="Enter your email" class="w-full border p-2 rounded mb-4">
+
+                <label  class="phone block mb-1 ">Phone Number</label>
+                <input id="phone"
+                    type="text"
+                    placeholder="Enter phone number"
+                    class="w-full border p-2 rounded mb-4">
+
+                <h2 class="text-xl font-bold mt-6 mb-4">
+                    Delivery Address
+                </h2>
+
+                <label class="block mb-1">Address</label>
+                <textarea id="address"
+                    placeholder="House number, street, area"
+                    class="w-full border p-2 rounded mb-4"></textarea>
+
+                <div class="grid grid-cols-2 gap-4">
+                    <div>
+                        <label class="block mb-1">City</label>
+                        <input id="city"
+                            type="text"
+                            placeholder="City"
+                            class="w-full border p-2 rounded">
+                    </div>
+                    <div>
+                        <label class="block mb-1">State</label>
+                        <input id="state"
+                            type="text"
+                            placeholder="State"
+                            class="w-full border p-2 rounded">
+                    </div>
+                </div>
+
+                <label class="block mt-4 mb-1">Pincode</label>
+                <input id="pincode"
+                    type="text"
+                    placeholder="Pincode"
+                    class="w-full border p-2 rounded">
+
+            </div>
+
+
+            <div class="bg-white p-6 rounded shadow h-fit">
+
+                <h2 class="text-xl font-bold mb-5">
+                    Order Summary
+                </h2>
+
+                <div id="products"></div>
+
+                <div class="border-t mt-5 pt-4">
+
+                    <div class="flex justify-between text-xl font-bold mt-4">
+                        <p>Total</p>
+                        <p id="total" class="text-teal-700">₹0</p>
+                    </div>
+
+                </div>
+
+
+                <h2 class="text-xl font-bold mt-6 mb-4">
+                    Payment Method
+                </h2>
+
+                <div class="border p-3 rounded mb-3">
+                    <label>
+                        <input type="radio" name="payment" value="COD" checked>
+                        Cash on Delivery
+                    </label>
+                </div>
+
+                <div class="border p-3 rounded">
+                    <label>
+                        <input type="radio" name="payment" value="Online">
+                        Online Payment
+                    </label>
+                </div>
+
+
+                <button onclick="PlaceOrder()"
+                    class="bg-teal-900 hover:bg-teal-800 text-white w-full py-3 rounded mt-6">
+
+                    Place Order
+
+                </button>
+
+            </div>
+
+        </div>
+
+    </div>
+
+
+    <script>
+
+        let users = JSON.parse(localStorage.getItem("users")) || [];
+        let userIndex = localStorage.getItem("userIndex");
+
+        let products = document.querySelector("#products");
+        let subtotal = document.querySelector("#subtotal");
+        let total = document.querySelector("#total");
+        let phone = document.querySelector("#phone");
+        let customerId = document.querySelector("#customerId");
+        let name = document.querySelector("#name");
+        let email = document.querySelector("#email");
+
+        if(userIndex == null){
+
+            alert("Please login first");
+            window.location.href = "login.html";
+
+        }else
+        {
+
+            let user = users[userIndex];
+            customerId.value = userIndex;
+
+            if(user.FullName){
+                name.value = user.FullName;
+            }
+            if(user.Email){
+                email.value = user.Email;
+            }
+            if (user.PhoneNumber) {
+                phone.value=user.PhoneNumber;
+            }
+            let mytotal = 0;
+
+            if(user.cart){
+
+                for(let i = 0; i < user.cart.length; i++){
+                    let product = user.cart[i];
+                    mytotal = mytotal + Number(product.Price);
+                    products.innerHTML += `
+                        <div class="flex items-center gap-3 border-b pb-3 mb-3">
+
+                            <img src="${product.Image}"
+                            class="w-16 h-16 object-cover rounded">
+
+                            <div class="flex-1">
+                                <h3 class="font-bold">
+                                    ${product.Product}
+                                </h3>
+
+                                <p class="text-gray-500">
+                                    ₹${product.Price}
+                                </p>
+                            </div>
+
+                        </div>
+                    `;
+                }
+            }
+
+            total.innerHTML = "₹" + mytotal;
+        }
+
+
+        function PlaceOrder(){
+                       let user = users[userIndex];
+
+            let mytotal = 0;
+            for(let i = 0; i < user.cart.length; i++){
+                    let product = user.cart[i];
+                    mytotal = mytotal + Number(product.Price);
+            }
+            let address = document.querySelector("#address").value;
+            let phone = document.querySelector("#phone").value;
+            let city = document.querySelector("#city").value;
+            let state = document.querySelector("#state").value;
+            let pincode = document.querySelector("#pincode").value;
+
+            if(name.value == "" ||
+                email.value == "" ||
+                phone == "" ||
+                address == "" ||
+                city == "" ||
+                state == "" ||
+                pincode == ""){
+
+                alert("Please fill all details");
+                return;
+            }
+
+            let payment = document.querySelector(
+                'input[name="payment"]:checked'
+            ).value;
+
+            alert("Order placed successfully!");
+
+let orderdeatails = {
+    customerId: userIndex,
+    name: name.value,
+    email: email.value,
+    phone: phone,
+    address: address,
+    city: city,
+    state: state,
+    pincode: pincode,
+    products: user.cart,
+    total: mytotal,
+}
+        console.log(orderdeatails);
+
+        let ordered= JSON.parse(localStorage.getItem("order"))||[]
+   
+ordered.push(orderdeatails);
+localStorage.setItem("order", JSON.stringify(ordered));
+
+}
+
+    </script>
+
+</body>
+</html>

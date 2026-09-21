@@ -1,0 +1,155 @@
+```html
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Users</title>
+    <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+    <link
+      href="https://cdn.jsdelivr.net/npm/remixicon@4.9.0/fonts/remixicon.css"
+      rel="stylesheet"
+    />
+  </head>
+
+  <body class="bg-slate-100 min-h-screen">
+    <div class="bg-teal-900">
+      <div
+        id="nav"
+        class="py-5 px-4 sm:px-8 lg:px-20 flex justify-between items-center text-white"
+      >
+        <h1 class="text-2xl sm:text-3xl font-bold">Admin</h1>
+
+        <div class="flex gap-4 sm:gap-8 items-center">
+          <button id="menuBtn" class="text-2xl lg:hidden">
+            <i class="ri-menu-fill"></i>
+          </button>
+
+          <ul
+            id="mobileNav"
+            class="hidden lg:flex gap-6 xl:gap-12 text-white/75 text-sm sm:text-md font-bold"
+          >
+            <li><a href="orders.html">Orders</a></li>
+            <li><a href="Users.html">Users</a></li>
+            <li><a href="products.html">Product</a></li>
+            <li><a href="Addproduct.html">Add Products</a></li>
+          </ul>
+
+          <button
+            onclick="logout()"
+            class="bg-white text-teal-900 px-3 sm:px-4 py-2 rounded-full font-semibold text-sm sm:text-base"
+          >
+            Logout
+          </button>
+        </div>
+      </div>
+
+      <div id="mobileMenu" class="hidden lg:hidden px-5 pb-5">
+        <ul class="flex flex-col gap-4 text-white/80 font-semibold">
+          <li><a href="orders.html">Orders</a></li>
+          <li><a href="Users.html">Users</a></li>
+          <li><a href="products.html">Product</a></li>
+          <li><a href="Addproduct.html">Add Products</a></li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-5 sm:py-8">
+      <div class="bg-white border border-black rounded-md shadow-md p-4 sm:p-6">
+        <div
+          class="flex flex-col sm:flex-row justify-between sm:items-center gap-2"
+        >
+          <h1 class="text-2xl sm:text-3xl font-bold text-emerald-800">
+            Admin Panel
+          </h1>
+
+          <h2 class="text-lg sm:text-xl font-semibold">Users</h2>
+        </div>
+
+        <div class="overflow-x-auto mt-5 sm:mt-8">
+          <table
+            class="w-full min-w-[1000px] border-collapse border border-black text-left"
+          >
+            <thead>
+              <tr class="bg-emerald-700 text-white">
+                <th class="border border-black px-4 py-3">#</th>
+                <th class="border border-black px-4 py-3">Full Name</th>
+                <th class="border border-black px-4 py-3">Username</th>
+                <th class="border border-black px-4 py-3">Email</th>
+                <th class="border border-black px-4 py-3">Password</th>
+                <th class="border border-black px-4 py-3">Gender</th>
+                <th class="border border-black px-4 py-3">Phone Number</th>
+                <th class="border border-black px-4 py-3">Action</th>
+              </tr>
+            </thead>
+
+            <tbody id="userTable"></tbody>
+          </table>
+        </div>
+
+        <h2
+          id="noUsers"
+          class="text-center text-gray-500 text-lg sm:text-xl mt-6 sm:mt-8 hidden"
+        >
+          No users registered yet.
+        </h2>
+      </div>
+    </div>
+
+    <script>
+      let Userdata = JSON.parse(localStorage.getItem("users")) || [];
+
+      let userTable = document.querySelector("#userTable");
+      let noUsers = document.querySelector("#noUsers");
+
+      function ShowUsers() {
+        userTable.innerHTML = "";
+
+        if (Userdata.length === 0) {
+          noUsers.classList.remove("hidden");
+          return;
+        }
+
+        noUsers.classList.add("hidden");
+
+        Userdata.forEach(function (user, index) {
+          userTable.innerHTML += `
+                    <tr class="hover:bg-slate-100">
+                        <td class="border border-black px-4 py-3">${index + 1}</td>
+                        <td class="border border-black px-4 py-3">${user.FullName}</td>
+                        <td class="border border-black px-4 py-3">${user.Username}</td>
+                        <td class="border border-black px-4 py-3">${user.Email}</td>
+                        <td class="border border-black px-4 py-3">${user.Password}</td>
+                        <td class="border border-black px-4 py-3">${user.Gender}</td>
+                        <td class="border border-black px-4 py-3">${user.PhoneNumber}</td>
+                        <td class="border border-black px-4 py-3">
+                            <button onclick="DeleteUser(${index})"
+                                class="bg-red-600 text-white px-4 py-1 rounded-md">
+                                Delete
+                            </button>
+                        </td>
+                    </tr>
+                `;
+        });
+      }
+
+      function DeleteUser(index) {
+        Userdata.splice(index, 1);
+        localStorage.setItem("users", JSON.stringify(Userdata));
+        ShowUsers();
+      }
+
+      ShowUsers();
+
+      document.querySelector("#menuBtn").addEventListener("click", function () {
+        document.querySelector("#mobileMenu").classList.toggle("hidden");
+      });
+
+      function logout() {
+        localStorage.removeItem("userIndex");
+        window.location.href = "../login.html";
+      }
+    </script>
+  </body>
+</html>
+```

@@ -1,0 +1,148 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Login</title>
+    <link
+      href="https://cdn.jsdelivr.net/npm/remixicon@4.9.0/fonts/remixicon.css"
+      rel="stylesheet"
+    />
+    <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+  </head>
+
+  <body
+    class="flex-col justify-center items-center bg-slate-100 min-h-screen w-full bg-cover bg-[url('https://images.unsplash.com/photo-1618221195710-dd6b41faaea6?auto=format&fit=crop&w=2000&q=80')]"
+  >
+    <nav
+      class="relative mb-20 z-10 bg-teal-700/95 text-white px-8 py-5 flex items-center justify-between shadow-lg"
+    >
+      <h1 class="text-3xl font-bold tracking-wide">
+        <a href="start.html">Shop-with-me</a>
+      </h1>
+
+      <div class="hidden md:flex gap-8 text-lg">
+        <a href="login.html" class="hover:text-teal-200 transition">Home</a>
+        <a href="login.html" class="hover:text-teal-200 transition"
+          >Furniture</a
+        >
+        <a href="login.html" class="hover:text-teal-200 transition">About</a>
+        <a href="login.html" class="hover:text-teal-200 transition">Contact</a>
+      </div>
+
+      <div class="flex gap-3">
+        <a
+          href="login.html"
+          class="px-5 py-2 rounded-lg border border-white hover:bg-white hover:text-teal-700 transition"
+        >
+          Login
+        </a>
+        <a
+          href="register.html"
+          class="px-5 py-2 rounded-lg bg-white text-teal-700 font-semibold hover:bg-teal-100 transition"
+        >
+          Register
+        </a>
+      </div>
+    </nav>
+
+    <div class="flex justify-center items-center">
+      <div class="bg-white shadow-md shadow-black/50 p-7 border rounded-md">
+        <h1
+          class="text-4xl text-shadow-sm shadow-black/50 font-bold text-center text-emerald-800"
+        >
+          Login
+        </h1>
+
+        <div class="grid grid-cols-1 gap-7 w-80 text-lg font-semibold mt-6">
+          <div class="flex flex-col">
+            <h1>Username</h1>
+            <input
+              class="Username mt-1 border shadow-sm shadow-black/50 py-1 px-3 text-base border-black rounded-sm"
+              type="text"
+              placeholder="Enter your username"
+            />
+          </div>
+
+          <div class="flex flex-col">
+            <h1>Email</h1>
+            <input
+              class="Email mt-1 shadow-sm shadow-black/50 border py-1 px-3 text-base border-black rounded-sm"
+              type="email"
+              placeholder="Enter your email"
+            />
+          </div>
+
+          <div class="flex flex-col">
+            <h1>Password</h1>
+            <input
+              class="Password mt-1 shadow-sm shadow-black/50 border py-1 px-3 text-base border-black rounded-sm"
+              type="password"
+              placeholder="Enter your password"
+            />
+          </div>
+        </div>
+
+        <div class="flex-col justify-center">
+          <button
+            onclick="Check()"
+            class="bg-teal-600 shadow-sm shadow-black/50 w-full py-2 px-5 mt-10 text-xl border border-black font-semibold text-white rounded-xl"
+          >
+            Login
+          </button>
+
+          <h1 class="mt-2 ml-2 text-black/60">
+            Do not have an account?
+            <span class="text-blue-600/70">
+              <a href="Register.html">Register now.</a>
+            </span>
+          </h1>
+        </div>
+      </div>
+    </div>
+  </body>
+
+  <script>
+    let inpusername = document.querySelector(".Username");
+    let inpemail = document.querySelector(".Email");
+    let inppassword = document.querySelector(".Password");
+
+    let Userdata = JSON.parse(localStorage.getItem("users")) || [];
+
+    function Check() {
+      let username = inpusername.value;
+      let email = inpemail.value;
+      let password = inppassword.value;
+
+      if (username === "admin") {
+        if (email === "admin@gmail.com") {
+          if (password === "1234567") {
+            alert("Admin Login successful!");
+            window.location.href = "admin/users.html";
+            return;
+          }
+        }
+      }
+
+      let index = -1;
+
+      for (let i = 0; i < Userdata.length; i++) {
+        if (Userdata[i].Username === username) {
+          if (Userdata[i].Email === email) {
+            if (Userdata[i].Password === password) {
+              index = i;
+            }
+          }
+        }
+      }
+
+      if (index !== -1) {
+        localStorage.setItem("userIndex", index);
+        alert("Login successful!");
+        window.location.href = "index.html";
+      } else {
+        alert("Username, email or password is incorrect!");
+      }
+    }
+  </script>
+</html>

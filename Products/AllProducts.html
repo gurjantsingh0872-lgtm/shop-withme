@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Products</title>
+    <link href="https://cdn.jsdelivr.net/npm/remixicon@4.9.0/fonts/remixicon.css" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+</head>
+<body>
+
+<section class="bg-stone-100">
+     <div id="nav" class="lg:mb-25 py-7 px-10 lg:px-25 bg-teal-700 flex justify-between items-center text-white">
+    <h1 class="text-3xl font-sans font-bold">Shop-with-me</h1>
+    <div class="flex gap-10 items-center">
+        <h2 class="icon text-2xl flex lg:hidden items-center font-semibold"><i class="ri-menu-fill"></i></h2>
+        <ul class="hidden lg:flex gap-15 text-white/75 text-md font-sans font-bold">
+            <li><a href="/../index.html">Home</a></li>
+            <li><a href="AllProducts.html">Shop</a></li>
+            <li><a href="/index.html">Services</a></li>
+            <li><a href="/index.html">Contact us</a></li>
+        </ul>
+        <h2 class="text-2xl flex items-center font-semibold"><a href="/cart.html"><i class="ri-shopping-cart-2-fill"></i></a></i></h2>
+        <button onclick="logout()" class="bg-white text-teal-900 px-4 py-2 rounded-full font-semibold"><a href="login.html">Logout</a></button>
+    </div>
+</div>
+
+    <div class="max-w-7xl mx-auto px-6 pt-5 pb-8">
+        <div class="flex items-end justify-between">
+            <div>
+                <p class="text-sm uppercase tracking-[4px] text-teal-700 mb-3">Our Collection</p>
+                <h2 class="text-4xl md:text-5xl font-bold text-stone-900">Designed for your space.</h2>
+                <p class="text-stone-500 mt-4 max-w-xl">Discover beautiful furniture crafted to bring comfort, style and warmth into every corner of your home.</p>
+            </div>
+        </div>
+    </div>
+
+    <div class="max-w-7xl mx-auto px-6 pb-16">
+        <div class="cards grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-7"></div>
+    </div>
+</section>
+<script>
+
+let ProductData = JSON.parse(localStorage.getItem("products")) || [];
+let users = JSON.parse(localStorage.getItem("users")) || [];
+let userIndex = localStorage.getItem("userIndex");
+
+let card = document.querySelector(".cards");
+
+
+function Getproducts() {
+
+    card.innerHTML = ProductData.map(function(value,index) {
+         return`
+        <div onclick="ProductDetails(${index})" class="product-card bg-white rounded-2xl overflow-hidden shadow-sm w-80 hover:shadow-xl transition duration-300">
+            <div class="relative">
+                <img src="${value.Image}" class="w-full h-72 object-cover">
+                <span class="absolute top-4 left-4 bg-white px-3 py-1 rounded-full text-xs font-semibold">
+                    BEST SELLER</span>
+                <button onclick="event.stopPropagation()" class="absolute top-4 right-4 bg-white w-10 h-10 rounded-full flex items-center justify-center">
+                    <i class="ri-heart-line text-xl"></i></button>
+            </div>
+
+            <div class="p-5">
+                <p class="text-sm text-stone-500">${value.Catogary}</p>
+                <h3 class="text-xl font-semibold text-stone-900 mt-1">
+                    ${value.Product}</h3>
+                <div class="flex items-center justify-between mt-5">
+                    <span class="text-2xl font-bold">
+                        ₹${value.Price}</span>
+                    <button onclick="AddToCart(${index}); event.stopPropagation()" class="bg-stone-900 text-white px-5 py-2.5 rounded-full hover:bg-teal-700">
+                        Add to Cart</button>
+                </div></div></div>`;
+    }).join("");
+}
+
+
+function ProductDetails(index) {
+    localStorage.setItem("productIndex", index);
+    window.location.href = "product-details.html";
+}
+
+
+function AddToCart(index) {
+   
+
+    let user = users[userIndex];
+    if (!user.cart) {
+        user.cart = [];
+    }
+
+    let product = ProductData[index];
+    user.cart.push(product);
+    localStorage.setItem("users", JSON.stringify(users));
+    alert("Product added to cart");
+}
+Getproducts();
+
+function logout() {
+    localStorage.removeItem("userIndex")
+  window.location.href = "/login.html";
+}
+</script>
+</body>
+</html>

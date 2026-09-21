@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>My Cart</title>
+
+    <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+    <link href="https://cdn.jsdelivr.net/npm/remixicon@4.9.0/fonts/remixicon.css" rel="stylesheet">
+</head>
+
+<body class="bg-gray-100">
+
+    <div id="nav" class="lg:mb-5 bg-teal-700 py-7 px-10 lg:px-25 flex justify-between items-center text-white">
+
+        <h1 class="text-3xl font-bold mb-2">My Cart</h1>
+        <p class="text-gray-500 mb-5">Your selected products</p>
+    <div class="flex  gap-10 items-center">
+        <h2 class="icon text-2xl flex lg:hidden items-center font-semibold"><i class="ri-menu-fill"></i></h2>
+        <ul class="hidden lg:flex gap-15 text-white/75 text-md font-sans font-bold">
+            <li><a href="index.html">Home</a></li>
+            <li><a href="Products/AllProducts.html">Shop</a></li>
+            <li><a href="index.html">Services</a></li>
+            <li><a href="index.html">Contact us</a></li>
+        </ul>
+        <h2 class=" text-white/75 text-md font-sans font-bold flex items-center font-semibold"><a href="History.html">History</a></i></h2>
+        <button onclick="logout()" class="bg-white text-teal-900 px-4 py-2 rounded-full font-semibold"><a href="login.html">Logout</a></button>
+    </div>
+</div>
+
+    <div class="max-w-5xl mx-auto px-5 py-7">
+
+        <div id="cart"></div>
+
+        <div id="totalBox" class="sticky hidden bg-white p-5 rounded mt-5">
+
+            <div class="flex justify-between">
+                <h2 class="text-xl font-bold">Total</h2>
+                <h2 class="total text-xl font-bold text-teal-700">₹0</h2>
+            </div>
+
+            <button class="bg-teal-900 text-white w-full py-3 mt-4 rounded">
+                <a href="Products/buy.html">Proceed to Checkout</a>
+            </button>
+
+    </div>
+
+    <script>
+
+        let users = JSON.parse(localStorage.getItem("users")) || [];
+        let userIndex = localStorage.getItem("userIndex");
+        let mytotal = 0;
+
+        let cart = document.querySelector("#cart");
+        let total = document.querySelector(".total");
+        let totalBox = document.querySelector("#totalBox");
+
+        if(userIndex == null){
+
+            cart.innerHTML = `
+                <div class="bg-white p-7 rounded text-center">
+                    <i class="ri-user-line text-5xl text-teal-700"></i>
+                    <h2 class="text-xl font-bold mt-3">
+                        Please Login First
+                    </h2>
+                    <p class="text-gray-500 mt-1">
+                        Login to see your cart
+                    </p>
+                    <a href="login.html"
+                    class="inline-block bg-teal-900 text-white px-5 py-2 mt-4 rounded">
+                        Login
+                    </a>
+
+                </div>
+            `;
+
+        }else{
+
+            let user = users[userIndex];
+            if(!user.cart || user.cart.length == 0){
+
+                cart.innerHTML = `
+                    <div class="bg-white p-7 rounded text-center">
+                        <i class="ri-shopping-cart-line text-5xl text-gray-300"></i>
+                        <h2 class="text-xl font-bold mt-3">
+                            Your Cart is Empty
+                        </h2>
+                        <p class="text-gray-500 mt-1">
+                            Add some products to your cart
+                        </p>
+                        <a href="index.html"
+                        class="inline-block bg-teal-900 text-white px-5 py-2 mt-4 rounded">
+                            Continue Shopping </a>
+                    </div>
+                `;
+
+            }else{
+
+                for(let i = 0; i < user.cart.length; i++){
+                    let product = user.cart[i];
+                    mytotal = mytotal + Number(product.Price);
+
+                    cart.innerHTML += `
+                        <div class="bg-white p-4 rounded mb-4 flex items-center gap-4">
+
+                            <img src="${product.Image}"
+                            class="w-24 h-24 object-cover rounded">
+
+                            <div class="flex-1">
+                                <h2 class="font-bold">
+                                    ${product.Product}</h2><p class="text-teal-700 font-semibold mt-2"> ₹${product.Price}</p></div>
+                            <button onclick="DeleteProduct(${i})"
+                            class="bg-red-500 text-white px-3 py-2 rounded">
+                                <i class="ri-delete-bin-line"></i></button>
+                        </div> `; }
+                total.innerHTML = "₹" + mytotal;
+                totalBox.classList.remove("hidden");
+            }
+        }
+
+        function DeleteProduct(index){
+            users[userIndex].cart.splice(index,1);
+            localStorage.setItem("users",JSON.stringify(users));
+            location.reload();
+        }
+
+    </script>
+
+</body>
+</html>
